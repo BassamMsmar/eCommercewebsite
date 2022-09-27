@@ -1,0 +1,68 @@
+{% extends 'products/base.html ' %}
+
+{% block content %}
+<div class="container">
+  <div class="container-fluid">
+    <nav aria-label="breadcrumb " class="navbar">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'products' %}"> Product </a></li>
+      <li class="breadcrumb-item active" aria-current="page">Electrones</li>
+    </ol>
+    </nav>
+    </div>
+</div>
+    
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for item in products %}
+            <div class="col">
+              <div class="card">
+                <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name}}</h5>
+                  <p class="card-text">{{ item.description}}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor  %}
+        </div>
+    </div>
+
+    <div class="container p-4">
+      <nav aria-label="...">
+        {% if products.has_other_pages %}
+
+        <ul class="pagination">
+          {% if products.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{products.previous_page_number}}" >Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link">Previous</a>
+          </li>
+          {% endif %}
+          {% for i in products.paginator.page_range %}
+          {% if products.number == i %}
+          <li class="page-item active">
+            <a class="page-link" >{{i}}</a>
+          </li>
+          {% else %}
+          <li class="page-item ">
+            <a class="page-link" href="?page={{i}}">{{i}}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+
+          {% if products.has_next %}
+          <li class="page-item "><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+          {% else %}
+          <li class="page-item disabled "><a class="page-link" href="#">Next</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </nav>
+    </div>
+{% endblock %}
